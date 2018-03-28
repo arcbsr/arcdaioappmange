@@ -54,15 +54,15 @@ public class ArcAppManager {
         new HttpSyncAppManager(onHttpSyncNotify, (diffInMin >= refreshIntervalHour), context);
     }
 
-    public void initiateSplash(int refreshIntervalHour, Activity activity, int ResultReq) {
-        long lastSavedDuration = System.currentTimeMillis() -
-                ArcAppManagerdb.getLongSetting(activity, "refresh_time", 0);
-        long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);
-        ArcLog.w("Time Diff  : " + diffInMin + ">> Splash, pkg from: " + activity.getApplicationContext().getPackageName());
-        Intent intent = new Intent();
-        intent.setClassName(activity, "appmanager.arcadio.com.arcappmanager.AboutActivity");
-        intent.putExtra("refreshIntervalHour", refreshIntervalHour);
-        intent.putExtra("pkg", activity.getApplicationContext().getPackageName());
-        activity.startActivityForResult(intent, ResultReq);
-    }
+//    public void initiateSplash(int refreshIntervalHour, Activity activity, int ResultReq) {
+//        long lastSavedDuration = System.currentTimeMillis() -
+//                ArcAppManagerdb.getLongSetting(activity, "refresh_time", 0);
+//        long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);
+//        ArcLog.w("Time Diff  : " + diffInMin + ">> Splash, pkg from: " + activity.getApplicationContext().getPackageName());
+//        Intent intent = new Intent();
+//        intent.setClassName(activity, "appmanager.arcadio.com.arcappmanager.AboutActivity");
+//        intent.putExtra("refreshIntervalHour", refreshIntervalHour);
+//        intent.putExtra("pkg", activity.getApplicationContext().getPackageName());
+//        activity.startActivityForResult(intent, ResultReq);
+//    }
 }
