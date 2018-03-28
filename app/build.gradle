@@ -8,7 +8,6 @@ android {
         targetSdkVersion 26
         versionCode 112
         versionName "1.1.2"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -22,5 +21,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.hanks:htextview-base:0.1.2'
+    compile 'com.hanks:htextview-typer:0.1.2'
     implementation project(':AppManager')
 }

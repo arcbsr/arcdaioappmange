@@ -2,6 +2,7 @@ package arcAppManager;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 
 import java.util.concurrent.TimeUnit;
 
@@ -49,7 +50,19 @@ public class ArcAppManager {
         long lastSavedDuration = System.currentTimeMillis() -
                 ArcAppManagerdb.getLongSetting(context, "refresh_time", 0);
         long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);
-        ArcLog.w("Time Diff clan: " + diffInMin + "");
+        ArcLog.w("Time Diff  : " + diffInMin + "");
         new HttpSyncAppManager(onHttpSyncNotify, (diffInMin >= refreshIntervalHour), context);
+    }
+
+    public void initiateSplash(int refreshIntervalHour, Activity activity, int ResultReq) {
+        long lastSavedDuration = System.currentTimeMillis() -
+                ArcAppManagerdb.getLongSetting(activity, "refresh_time", 0);
+        long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);
+        ArcLog.w("Time Diff  : " + diffInMin + ">> Splash, pkg from: " + activity.getApplicationContext().getPackageName());
+        Intent intent = new Intent();
+        intent.setClassName(activity, "appmanager.arcadio.com.arcappmanager.AboutActivity");
+        intent.putExtra("refreshIntervalHour", refreshIntervalHour);
+        intent.putExtra("pkg", activity.getApplicationContext().getPackageName());
+        activity.startActivityForResult(intent, ResultReq);
     }
 }
