@@ -107,7 +107,7 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
                 ArcLog.w(ARC_ROOT_URL + context.getApplicationContext().getPackageName());
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url(ARC_ROOT_URL + "com.cynomusic.mp3downloader")//context.getApplicationContext().getPackageName())
+                        .url(ARC_ROOT_URL + context.getApplicationContext().getPackageName())
                         .addHeader("content-type", "application/json")
                         .addHeader("cache-control", "no-cache")
                         .build();
