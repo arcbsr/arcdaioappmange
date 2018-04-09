@@ -1,8 +1,13 @@
 package appmanager.arcadio.com.arcappmanager;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import arcAppManager.ArcAppManager;
+import arcAppManager.HttpSyncAppManager;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,6 +15,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        startActivity(new Intent(this, AboutActivity.class));
+        //startActivity(new Intent(this, AboutActivity.class));
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    ArcAppManager.getInstance().showPromotedAds(MainActivity.this, null);
+
+//                    Gson gson = new Gson();
+//                    AppData appData = gson.fromJson(ArcAppManager.getInstance().getAppData(), AppData.class);
+//                    Log.w("Version upd needed", appData.townhall.thsize + "");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
+            @Override
+            public void onPreConnection() {
+
+            }
+
+            @Override
+            public void onPostConnection(Object object, boolean isSuccess) {
+                Toast.makeText(MainActivity.this, "update: " + isSuccess, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDoInBackground(String rootUrl) {
+                Log.w("url", rootUrl);
+            }
+        }, 0);
     }
 }

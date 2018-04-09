@@ -32,7 +32,7 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
 
         void onPostConnection(Object object, boolean isSuccess);
 
-        String onDoInBackground(String rootUrl);
+        void onDoInBackground(String pkgName);
     }
 
     @Override
@@ -103,9 +103,11 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         resultModule result = new resultModule();
         if (onHttpSyncNotify != null) {
             try {
+                onHttpSyncNotify.onDoInBackground(context.getApplicationContext().getPackageName());
+                ArcLog.w(ARC_ROOT_URL + context.getApplicationContext().getPackageName());
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url(onHttpSyncNotify.onDoInBackground(ARC_ROOT_URL))
+                        .url(ARC_ROOT_URL + "com.cynomusic.mp3downloader")//context.getApplicationContext().getPackageName())
                         .addHeader("content-type", "application/json")
                         .addHeader("cache-control", "no-cache")
                         .build();

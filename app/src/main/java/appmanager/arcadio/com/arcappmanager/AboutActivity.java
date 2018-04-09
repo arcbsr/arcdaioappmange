@@ -45,8 +45,7 @@ public class AboutActivity extends Activity {
             }
 
             @Override
-            public String onDoInBackground(String s) {
-                return s + getIntent().getStringExtra("pkg");
+            public void onDoInBackground(String s) {
             }
         }, refreshIntervalHour);
     }

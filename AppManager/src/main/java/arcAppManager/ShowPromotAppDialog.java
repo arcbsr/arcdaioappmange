@@ -100,7 +100,7 @@ class ShowPromotAppDialog {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://www.arcadiosys.com/arcadio-apps/apps/detail/" + promotedAppsInfo.pkgName));
+                        Uri.parse("http://www.arcadiosys.com/apps/detail/" + promotedAppsInfo.pkgName));
                 activity.startActivity(i);
             }
         });

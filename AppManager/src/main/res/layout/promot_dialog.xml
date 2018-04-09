@@ -24,18 +24,18 @@
             android:orientation="vertical"
             android:padding="3dip">
 
-            <android.support.v7.widget.AppCompatImageView
+            <android.support.v7.widget.AppCompatButton
                 android:id="@+id/dlg_close"
                 android:layout_width="32dip"
                 android:layout_height="32dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="3dip"
-                android:padding="5dip"
-                android:background="#80808080"
-                android:src="@drawable/ic_close_black_24dp"
-                tools:ignore="VectorDrawableCompat" />
+                android:background="@drawable/ic_close_black_24dp"
 
+                android:padding="5dip"
+                tools:ignore="VectorDrawableCompat" />
+            <!--android:background="#80808080"-->
             <TextView
                 android:id="@+id/dlg_app_title"
                 android:layout_width="match_parent"
@@ -44,8 +44,8 @@
                 android:layout_toLeftOf="@+id/dlg_close"
                 android:gravity="center_vertical"
                 android:maxLines="1"
-                android:paddingLeft="8dip"
-                android:text="fasdflsdkfjlskd"
+                android:paddingLeft="15dip"
+                android:text=""
                 android:textColor="@android:color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />

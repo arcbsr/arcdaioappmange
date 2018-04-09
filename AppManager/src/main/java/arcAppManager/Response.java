@@ -14,55 +14,55 @@ public class Response {
     private Integer id = 0;
     @SerializedName("user_id")
     @Expose
-    private Integer userId=0;
+    private Integer userId = 0;
     @SerializedName("pkg_name")
     @Expose
-    private String pkgName="";
+    private String pkgName = "";
     @SerializedName("app_name")
     @Expose
-    private String appName="";
+    private String appName = "";
     @SerializedName("platform")
     @Expose
-    private String platform="";
+    private String platform = "";
     @SerializedName("app_link")
     @Expose
-    private String appLink="";
+    private String appLink = "";
     @SerializedName("app_version")
     @Expose
-    private String appVersion="";
+    private String appVersion = "";
     @SerializedName("is_major_update")
     @Expose
-    private Object isMajorUpdate= false;
+    private Object isMajorUpdate = false;
     @SerializedName("short_description")
     @Expose
-    private String shortDescription="";
+    private String shortDescription = "";
     @SerializedName("description")
     @Expose
-    private String description="";
+    private String description = "";
     @SerializedName("app_icon")
     @Expose
-    private String appIcon="";
+    private String appIcon = "";
     @SerializedName("app_banner")
     @Expose
-    private String appBanner="";
+    private String appBanner = "";
     @SerializedName("links")
     @Expose
-    private String links="";
+    private String links = "";
     @SerializedName("app_data")
     @Expose
-    private String appData="";
+    private String appData = "";
     @SerializedName("created_at")
     @Expose
-    private String createdAt="";
+    private String createdAt = "";
     @SerializedName("updated_at")
     @Expose
-    private String updatedAt="";
+    private String updatedAt = "";
     @SerializedName("promoted_apps_info")
     @Expose
     private List<PromotedAppsInfo> promotedAppsInfo = new ArrayList<>();
     @SerializedName("screenshots")
     @Expose
-    private List<Screenshot> screenshots = new ArrayList<>() ;
+    private List<Screenshot> screenshots = new ArrayList<>();
 
     public Integer getId() {
         return id;
@@ -120,8 +120,17 @@ public class Response {
         this.appVersion = appVersion;
     }
 
-    public Object getIsMajorUpdate() {
-        return isMajorUpdate;
+    public boolean getIsMajorUpdate() {
+        try {
+            if (isMajorUpdate.toString().equalsIgnoreCase("on")) {
+                return true;
+            } else if (isMajorUpdate.toString().equalsIgnoreCase("off")) {
+                return false;
+            }
+            return Boolean.parseBoolean(isMajorUpdate.toString());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public void setIsMajorUpdate(Object isMajorUpdate) {
