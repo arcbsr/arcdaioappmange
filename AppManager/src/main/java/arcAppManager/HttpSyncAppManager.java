@@ -78,7 +78,12 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
             response = gson.fromJson(result.result, Apps.class);
             ArcAppManagerdb.setStringValue(context, KEY_SAVED_DATA, result.result);
             ArcAppManager.getInstance().setApps(response);
+            if (response.getResponse().get(0).getStatus() == 1) {
+            } else {
+                ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
+            }
         } catch (Exception e) {
+            ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
             ArcLog.w(e.getMessage());
             return null;
         }

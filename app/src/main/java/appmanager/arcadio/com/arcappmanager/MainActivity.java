@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    ArcAppManager.getInstance().showPromotedAds(MainActivity.this, null);
+                    Log.w("status", ArcAppManager.getInstance().showPromotedAds(MainActivity.this, null));
+                    Log.w("status all", ArcAppManager.getInstance().getStatus());
 
 //                    Gson gson = new Gson();
 //                    AppData appData = gson.fromJson(ArcAppManager.getInstance().getAppData(), AppData.class);
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+        ArcAppManager.getInstance().showLog(false);
         ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
             @Override
             public void onPreConnection() {

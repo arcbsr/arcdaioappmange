@@ -64,6 +64,40 @@ public class Response {
     @Expose
     private List<Screenshot> screenshots = new ArrayList<>();
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Integer getStatusAds() {
+        return statusAds;
+    }
+
+    public void setStatusAds(Integer statusAds) {
+        this.statusAds = statusAds;
+    }
+
+    public Integer getIsPromoteApps() {
+        return isPromoteApps;
+    }
+
+    public void setIsPromoteApps(Integer isPromoteApps) {
+        this.isPromoteApps = isPromoteApps;
+    }
+
+    @SerializedName("status")
+    @Expose
+    private Integer status = 0;
+    @SerializedName("status_ads")
+    @Expose
+    private Integer statusAds = 0;
+    @SerializedName("is_promote_apps")
+    @Expose
+    private Integer isPromoteApps = 0;
+
     public Integer getId() {
         return id;
     }

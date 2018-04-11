@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class ArcAppManager {
     private static final ArcAppManager ourInstance = new ArcAppManager();
     private Apps apps = null;
+    private String message="nothing";
 
     public interface onPromoterNotifyListener {
         void appShowed(String pkgName);
@@ -31,12 +32,15 @@ public class ArcAppManager {
     private ArcAppManager() {
     }
 
-    public boolean showPromotedAds(Activity activity, onPromoterNotifyListener promoterNotifyListener) throws Exception {
-        if (apps == null || apps.getResponse() == null) {
-            return false;
+    public String showPromotedAds(Activity activity, onPromoterNotifyListener promoterNotifyListener) throws Exception {
+        if (isDisable() || isPromotingDisable()) {
+            return "Promoting Disable, please contact with admin.";
+        }
+        if (!checkAppsDataValidity()) {
+            return "Error, please try again later.";
         }
         new ShowPromotAppDialog(activity, "", promoterNotifyListener);
-        return true;
+        return "Ads Showed";
     }
 
     public boolean showPromotedAds(Activity activity, String buttonName, onPromoterNotifyListener promoterNotifyListener) throws Exception {
@@ -53,6 +57,17 @@ public class ArcAppManager {
 
     void setApps(Apps apps) {
         this.apps = apps;
+    }
+    void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getStatus() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Publisher :" + (isDisable() ? "Disable" : "Enable") + "\n");
+        builder.append("Promoting :" + (isPromotingDisable() ? "Disable" : "Enable") + "\n");
+        builder.append("Ads :" + (isAdsDisable() ? "Disable" : "Enable"));
+        return builder.toString();
     }
 
     public void initiate(final Context context, HttpSyncAppManager.onHttpSyncNotifyListener onHttpSyncNotify, int refreshIntervalHour) {
@@ -114,11 +129,39 @@ public class ArcAppManager {
         return false;
     }
 
+    public boolean isDisable() {
+        if (!checkAppsDataValidity()) {
+            return true;
+        }
+        return apps.getResponse().get(0).getStatus() == 0;
+
+    }
+
+    public boolean isAdsDisable() {
+        if (!checkAppsDataValidity()) {
+            return true;
+        }
+        return apps.getResponse().get(0).getStatusAds() == 0;
+
+    }
+
+    public boolean isPromotingDisable() {
+        if (!checkAppsDataValidity()) {
+            return false;
+        }
+        return apps.getResponse().get(0).getIsPromoteApps() == 0;
+
+    }
+
     public List<PromotedAppsInfo> getpromotedApps() {
         if (checkAppsDataValidity()) {
             return apps.getResponse().get(0).getPromotedAppsInfo();
         }
         return null;
+    }
+
+    public void showLog(boolean isLogShow) {
+        ArcLog.IS_LOG = isLogShow;
     }
 
     private boolean checkAppsDataValidity() {

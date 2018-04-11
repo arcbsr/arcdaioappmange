@@ -8,7 +8,7 @@ import android.util.Log;
 
 class ArcLog {
     private final static String arcLogTag = "arc manager";
-    private static final boolean IS_LOG = true;
+    static boolean IS_LOG = false;
 
     static void w(String log) {
         if (IS_LOG)
