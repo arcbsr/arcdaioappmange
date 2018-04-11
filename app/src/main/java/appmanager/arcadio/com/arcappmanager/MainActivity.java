@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Log.w("status", ArcAppManager.getInstance().showPromotedAds(MainActivity.this, null));
+                    Log.w("status", ArcAppManager.getInstance().showPromotedAds(MainActivity.this,
+                            "Sucks",null));
                     Log.w("status all", ArcAppManager.getInstance().getStatus());
 
 //                    Gson gson = new Gson();

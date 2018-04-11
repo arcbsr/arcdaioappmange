@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
 public class ArcAppManager {
     private static final ArcAppManager ourInstance = new ArcAppManager();
     private Apps apps = null;
-    private String message="nothing";
+    private String message = "nothing";
 
     public interface onPromoterNotifyListener {
         void appShowed(String pkgName);
@@ -43,12 +43,15 @@ public class ArcAppManager {
         return "Ads Showed";
     }
 
-    public boolean showPromotedAds(Activity activity, String buttonName, onPromoterNotifyListener promoterNotifyListener) throws Exception {
-        if (apps == null || apps.getResponse() == null) {
-            return false;
+    public String showPromotedAds(Activity activity, String buttonName, onPromoterNotifyListener promoterNotifyListener) throws Exception {
+        if (isDisable() || isPromotingDisable()) {
+            return "Promoting Disable, please contact with admin.";
+        }
+        if (!checkAppsDataValidity()) {
+            return "Error, please try again later.";
         }
         new ShowPromotAppDialog(activity, buttonName, promoterNotifyListener);
-        return true;
+        return "Ads Showed";
     }
 
     Apps getApps() {
@@ -58,6 +61,7 @@ public class ArcAppManager {
     void setApps(Apps apps) {
         this.apps = apps;
     }
+
     void setMessage(String message) {
         this.message = message;
     }
@@ -70,7 +74,14 @@ public class ArcAppManager {
         return builder.toString();
     }
 
+    public int getMaxRefreshInterval() {
+        return 12;
+    }
+
     public void initiate(final Context context, HttpSyncAppManager.onHttpSyncNotifyListener onHttpSyncNotify, int refreshIntervalHour) {
+        if (refreshIntervalHour > 12) {
+            refreshIntervalHour = 12;
+        }
         long lastSavedDuration = System.currentTimeMillis() -
                 ArcAppManagerdb.getLongSetting(context, "refresh_time", 0);
         long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);

@@ -82,18 +82,19 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
             } else {
                 ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
             }
+            if (refreshData) {
+                ArcAppManagerdb.setSetting(context, "refresh_time", System.currentTimeMillis());
+                ArcLog.w("set interval for server");
+            }
         } catch (Exception e) {
             ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
             ArcLog.w(e.getMessage());
             return null;
         }
+        onHttpSyncNotify.onDoInBackground(context.getApplicationContext().getPackageName());
         if (result.responseCode != 200) {
             return null;
 
-        }
-        if (refreshData) {
-            ArcAppManagerdb.setSetting(context, "refresh_time", System.currentTimeMillis());
-            ArcLog.w("set interval for server");
         }
         return response;
     }
@@ -108,7 +109,6 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         resultModule result = new resultModule();
         if (onHttpSyncNotify != null) {
             try {
-                onHttpSyncNotify.onDoInBackground(context.getApplicationContext().getPackageName());
                 ArcLog.w(ARC_ROOT_URL + context.getApplicationContext().getPackageName());
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
