@@ -110,16 +110,17 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         resultModule result = new resultModule();
         if (onHttpSyncNotify != null) {
             try {
-                String generateUrl = ARC_ROOT_URL + (ArcAppManager.getInstance().isEncryption() ?
-                        "encrypted" : context.getApplicationContext().getPackageName()) + ArcAppManager.getInstance().getExtraParam();
+                String generateUrl = ARC_ROOT_URL + context.getApplicationContext().getPackageName()
+                        + ArcAppManager.getInstance().getExtraParam();
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
                         .url(generateUrl)
                         .addHeader("content-type", "application/json")
                         .addHeader("cache-control", "no-cache")
+                        .addHeader("value", ArcAppManager.getInstance().getEncryption())
                         .build();
 
-                ArcLog.w(generateUrl);
+                ArcLog.w(request.header("value"));
                 okhttp3.Response responsebody = client.newCall(request).execute();
                 result.responseCode = responsebody.code();
                 //Log.w("response code", responseCode + "");

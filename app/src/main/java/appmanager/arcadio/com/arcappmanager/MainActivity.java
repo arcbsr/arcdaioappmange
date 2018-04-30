@@ -33,8 +33,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         ArcAppManager.getInstance().showLog(true);
-        ArcAppManager.getInstance().setEncryption(true);
-        ArcAppManager.getInstance().setExtraParam("&id=fadfjdhj");
         ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
             @Override
             public void onPreConnection() {

@@ -26,15 +26,15 @@ public class ArcAppManager {
 
     private String extraParam = "";
 
-    public boolean isEncryption() {
-        return isEncryption;
+    public String getEncryption() {
+        return mEncryption;
     }
 
-    public void setEncryption(boolean encryption) {
-        isEncryption = encryption;
+    public void setEncryption(String encryption) {
+        mEncryption = encryption;
     }
 
-    private boolean isEncryption = false;
+    private String mEncryption = "N";
 
     public interface onPromoterNotifyListener {
         void appShowed(String pkgName);
