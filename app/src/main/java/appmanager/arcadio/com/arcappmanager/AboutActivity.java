@@ -45,7 +45,7 @@ public class AboutActivity extends Activity {
             }
 
             @Override
-            public void onDoInBackground(String s) {
+            public void onDoInBackground(boolean s) {
             }
         }, refreshIntervalHour);
     }

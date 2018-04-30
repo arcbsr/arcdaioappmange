@@ -32,7 +32,7 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
 
         void onPostConnection(Object object, boolean isSuccess);
 
-        void onDoInBackground(String pkgName);
+        void onDoInBackground(boolean isLoaded);
     }
 
     @Override
@@ -89,13 +89,14 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         } catch (Exception e) {
             ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
             ArcLog.w(e.getMessage());
+            onHttpSyncNotify.onDoInBackground(false);
             return null;
         }
-        onHttpSyncNotify.onDoInBackground(context.getApplicationContext().getPackageName());
         if (result.responseCode != 200) {
             return null;
 
         }
+        onHttpSyncNotify.onDoInBackground(true);
         return response;
     }
 
@@ -109,13 +110,16 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         resultModule result = new resultModule();
         if (onHttpSyncNotify != null) {
             try {
-                ArcLog.w(ARC_ROOT_URL + context.getApplicationContext().getPackageName());
+                String generateUrl = ARC_ROOT_URL + (ArcAppManager.getInstance().isEncryption() ?
+                        "encrypted" : context.getApplicationContext().getPackageName()) + ArcAppManager.getInstance().getExtraParam();
                 OkHttpClient client = new OkHttpClient();
                 Request request = new Request.Builder()
-                        .url(ARC_ROOT_URL + context.getApplicationContext().getPackageName())
+                        .url(generateUrl)
                         .addHeader("content-type", "application/json")
                         .addHeader("cache-control", "no-cache")
                         .build();
+
+                ArcLog.w(generateUrl);
                 okhttp3.Response responsebody = client.newCall(request).execute();
                 result.responseCode = responsebody.code();
                 //Log.w("response code", responseCode + "");

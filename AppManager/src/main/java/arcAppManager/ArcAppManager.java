@@ -16,6 +16,26 @@ public class ArcAppManager {
     private Apps apps = null;
     private String message = "nothing";
 
+    public String getExtraParam() {
+        return extraParam;
+    }
+
+    public void setExtraParam(String extraParam) {
+        this.extraParam = extraParam;
+    }
+
+    private String extraParam = "";
+
+    public boolean isEncryption() {
+        return isEncryption;
+    }
+
+    public void setEncryption(boolean encryption) {
+        isEncryption = encryption;
+    }
+
+    private boolean isEncryption = false;
+
     public interface onPromoterNotifyListener {
         void appShowed(String pkgName);
 

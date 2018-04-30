@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     Log.w("status", ArcAppManager.getInstance().showPromotedAds(MainActivity.this,
-                            "Sucks",null));
+                            "Sucks", null));
                     Log.w("status all", ArcAppManager.getInstance().getStatus());
 
 //                    Gson gson = new Gson();
@@ -32,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        ArcAppManager.getInstance().showLog(false);
+        ArcAppManager.getInstance().showLog(true);
+        ArcAppManager.getInstance().setEncryption(true);
+        ArcAppManager.getInstance().setExtraParam("&id=fadfjdhj");
         ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
             @Override
             public void onPreConnection() {
@@ -45,8 +47,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDoInBackground(String rootUrl) {
-                Log.w("url", rootUrl);
+            public void onDoInBackground(boolean isLoaded) {
+                Log.w("is loaded", isLoaded + "");
             }
         }, 0);
     }
