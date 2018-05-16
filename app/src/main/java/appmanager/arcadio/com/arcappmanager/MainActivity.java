@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import arcAppManager.ArcAppManager;
 import arcAppManager.HttpSyncAppManager;
 
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        ArcAppManager.getInstance().showLog(true);
+        ArcAppManager.getInstance().setExtraParam(HttpSyncAppManager.ARC_APP_DETAIL + getApplicationContext().getPackageName());
         ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
             @Override
             public void onPreConnection() {

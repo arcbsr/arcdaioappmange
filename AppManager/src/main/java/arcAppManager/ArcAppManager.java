@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +17,26 @@ public class ArcAppManager {
     private Apps apps = null;
     private String message = "nothing";
 
+    public String getAccessToken() {
+        return mAccessToken;
+    }
+
+    public void setAccessToken(String mAccessToken) {
+        this.mAccessToken = mAccessToken;
+    }
+
+    private String mAccessToken = "";
+
+    public HashMap<String, String> getmPostValues() {
+        return mPostValues;
+    }
+
+    public void setmPostValues(HashMap<String, String> mPostValues) {
+        this.mPostValues = mPostValues;
+    }
+
+    private HashMap<String, String> mPostValues = new HashMap<>();
+
     public String getExtraParam() {
         return extraParam;
     }
@@ -24,6 +45,7 @@ public class ArcAppManager {
         this.extraParam = extraParam;
     }
 
+    //?pkg_name=com.example.apps//
     private String extraParam = "";
 
     public String getEncryption() {

@@ -5,8 +5,10 @@ import android.os.AsyncTask;
 
 import com.google.gson.Gson;
 
+import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 
 /**
  * Created by Devbd on 3/26/18.
@@ -14,11 +16,15 @@ import okhttp3.Request;
 
 public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
     private onHttpSyncNotifyListener onHttpSyncNotify = null;
-    public final static String KEY_SAVED_DATA = "arc_app_manager_db";
-    private final static String ARC_ROOT_URL = "http://79.143.190.131/arcappmanager/api/app-details?pkg_name=";
-    private boolean refreshData = true;
-    Context context = null;
-    public static final String ARC_ERROR_CONNECTION = "Error in connection";
+    private final static String KEY_SAVED_DATA = "arc_app_manager_db";
+    private final static String ARC_ROOT_URL = "http://79.143.190.131/arcappmanager/api";
+    public static final String ARC_APP_DETAIL = "/app-details?pkg_name=";
+    //"http://79.143.190.131/arcappmanager/api/app-details?pkg_name=";
+    private boolean refreshData = true;//"http://79.143.190.131/arcappmanager/api/register-device";//
+    private Context context = null;
+    private static final String ARC_ERROR_CONNECTION = "Error in connection";
+    private static final String MEDIA_TYPE = "application/json";
+    private static final String MEDIA_TYPE_WWW = "application/x-www-form-urlencoded";
 
     public HttpSyncAppManager(onHttpSyncNotifyListener onHttpSyncNotify, boolean refreshData, Context context) {
         this.onHttpSyncNotify = onHttpSyncNotify;
@@ -110,17 +116,37 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
         resultModule result = new resultModule();
         if (onHttpSyncNotify != null) {
             try {
-                String generateUrl = ARC_ROOT_URL + context.getApplicationContext().getPackageName()
+                RequestBody formBody = null;
+                FormBody.Builder formPBody = new FormBody.Builder();
+                formPBody.add("package_name", context.getApplicationContext().getPackageName());
+                if (ArcAppManager.getInstance().getmPostValues().size() > 0) {
+                    for (String ss : ArcAppManager.getInstance().getmPostValues().keySet()) {
+                        formPBody.add(ss, ArcAppManager.getInstance().getmPostValues().get(ss));
+                    }
+                }
+                formBody = formPBody.build();
+                String generateUrl = ARC_ROOT_URL
                         + ArcAppManager.getInstance().getExtraParam();
+                ArcLog.w(generateUrl);
                 OkHttpClient client = new OkHttpClient();
-                Request request = new Request.Builder()
-                        .url(generateUrl)
-                        .addHeader("content-type", "application/json")
-                        .addHeader("cache-control", "no-cache")
-                        .addHeader("value", ArcAppManager.getInstance().getEncryption())
-                        .build();
-
-                ArcLog.w(request.header("value"));
+                Request request = null;
+                if (ArcAppManager.getInstance().getmPostValues().size() > 0) {
+                    request = new Request.Builder()
+                            .url(generateUrl)
+                            .post(formBody)
+                            .addHeader("content-type", MEDIA_TYPE_WWW)
+                            .addHeader("cache-control", "no-cache")
+                            .addHeader("Authorization", ArcAppManager.getInstance().getAccessToken())
+                            .build();
+                } else {
+                    request = new Request.Builder()
+                            .url(generateUrl)
+                            .addHeader("content-type", MEDIA_TYPE_WWW)
+                            .addHeader("cache-control", "no-cache")
+                            .addHeader("Authorization", ArcAppManager.getInstance().getAccessToken())
+                            .build();
+                }
+                ArcLog.w(request.header("Authorization"));
                 okhttp3.Response responsebody = client.newCall(request).execute();
                 result.responseCode = responsebody.code();
                 //Log.w("response code", responseCode + "");
