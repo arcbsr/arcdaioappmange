@@ -17,6 +17,14 @@ public class ArcAppManager {
     private Apps apps = null;
     private String message = "nothing";
 
+    public int getRefresTimeInterval(Context context) {
+        return ArcAppManagerdb.getIntSetting(context, "arc_refresh_interval", 0);
+    }
+
+    public void setRefresTimeInterval(Context context, int refresTimeInterval) {
+        ArcAppManagerdb.setSetting(context, "arc_refresh_interval", refresTimeInterval);
+    }
+
     public String getAccessToken() {
         return mAccessToken;
     }
@@ -120,12 +128,17 @@ public class ArcAppManager {
         return 12;
     }
 
+    public void initiate(final Context context, HttpSyncAppManager.onHttpSyncNotifyListener onHttpSyncNotify) {
+        int refreshIntervalHour = getRefresTimeInterval(context);
+        initiate(context, onHttpSyncNotify, refreshIntervalHour);
+    }
+
     public void initiate(final Context context, HttpSyncAppManager.onHttpSyncNotifyListener onHttpSyncNotify, int refreshIntervalHour) {
         if (refreshIntervalHour > 12) {
             refreshIntervalHour = 12;
         }
         long lastSavedDuration = System.currentTimeMillis() -
-                ArcAppManagerdb.getLongSetting(context, "refresh_time", 0);
+                ArcAppManagerdb.getLongSetting(context, "arc_last_upd", 0);
         long diffInMin = TimeUnit.MILLISECONDS.toHours(lastSavedDuration);
         ArcLog.w("Time Diff  : " + diffInMin + "");
         new HttpSyncAppManager(onHttpSyncNotify, (diffInMin >= refreshIntervalHour), context);

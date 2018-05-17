@@ -89,7 +89,7 @@ public class HttpSyncAppManager extends AsyncTask<Void, Void, Object> {
                 ArcAppManager.getInstance().setMessage("Publisher disabled, please contact with admin.");
             }
             if (refreshData) {
-                ArcAppManagerdb.setSetting(context, "refresh_time", System.currentTimeMillis());
+                ArcAppManagerdb.setSetting(context, "arc_last_upd", System.currentTimeMillis());
                 ArcLog.w("set interval for server");
             }
         } catch (Exception e) {

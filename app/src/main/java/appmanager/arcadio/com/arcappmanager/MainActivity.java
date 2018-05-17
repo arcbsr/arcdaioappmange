@@ -34,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        ArcAppManager.getInstance().setExtraParam(HttpSyncAppManager.ARC_APP_DETAIL + getApplicationContext().getPackageName());
+        ArcAppManager.getInstance()
+                .showLog(true);
+        ArcAppManager.getInstance().setExtraParam(HttpSyncAppManager.ARC_APP_DETAIL + "com.cynomusic.mp3downloader");//+ getApplicationContext().getPackageName());
         ArcAppManager.getInstance().initiate(this, new HttpSyncAppManager.onHttpSyncNotifyListener() {
             @Override
             public void onPreConnection() {
